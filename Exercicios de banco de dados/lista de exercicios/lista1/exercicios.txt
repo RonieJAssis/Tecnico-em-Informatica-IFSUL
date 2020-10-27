@@ -1,0 +1,73 @@
+dados
+
+insert into cidade(nome,uf)values('Passo Fundo','RS')
+
+insert into pessoa(nome,data_nasc,sex,vend,cid_cod) values('Altair','2000-01-01','M','S',1)
+insert into pessoa(nome,data_nasc,sex,vend,conjugue,cid_cod) values('Ana','2000-10-11','F','N',2,1)
+
+select * from pessoa
+
+update pessoa
+set vend = 'S'
+
+update pessoa
+set vend = 'N'where cod_pec = 2
+
+insert into pessoa(nome,data_nasc,sex,vend,cid_cod) values('Jair','2002-10-21','M','N',1)
+
+insert into produto(nome_prod,preco,estoque) values('CD',2.00,5)
+insert into produto(nome_prod,preco,estoque) values('DVD',5.00,11)
+
+insert into venda(preço_tot,data_vend,cliente,vendedor)values(2.00,'2010-10-21',5,2)
+insert into venda(preço_tot,data_vend,cliente,vendedor)values(4.00,'2010-10-01',5,6)
+insert into venda(preço_tot,data_vend,cliente,vendedor)values(6.00,'2010-11-21',5,2)
+
+select * from venda
+select * from produto
+
+insert into prod_a_venda(cod_prod,cod_venda,valor_prod,qnt_prod)values(1,1,2,1)
+insert into prod_a_venda(cod_prod,cod_venda,valor_prod,qnt_prod)values(1,3,2,1)
+insert into prod_a_venda(cod_prod,cod_venda,valor_prod,qnt_prod)values(2,2,4,1)
+insert into prod_a_venda(cod_prod,cod_venda,valor_prod,qnt_prod)values(2,3,4,1)
+
+insert into telefone(numero,cod_pec) values ('1111',2)
+-------------------------------------------------------------------------------------------
+1
+
+select sum(cod_venda) from venda where extract(month from data_vend)=10
+
+
+-------------------------------------------------------------------------------------------
+2
+
+select * from produto where estoque <= 10
+
+-------------------------------------------------------------------------------------------
+3
+
+select * from pessoa where conjugue is not null
+
+-------------------------------------------------------------------------------------------
+4
+
+select * from pessoa p,cidade c where c.cod_cid = p.cid_cod and c.nome = 'Passo Fundo'
+
+-------------------------------------------------------------------------------------------
+5
+
+?
+
+-------------------------------------------------------------------------------------------
+6
+
+?
+
+-------------------------------------------------------------------------------------------
+7
+
+select nome from pessoa p,telefone t where p.cod_pec != t.cod_pec
+
+-------------------------------------------------------------------------------------------
+8
+
+select nome from pessoa p,telefone t where p.cod_pec != t.cod_pec

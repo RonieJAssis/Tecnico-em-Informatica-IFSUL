@@ -1,0 +1,63 @@
+1
+
+create or replace function ex1()
+returns table (nome text,email text)
+as
+$$
+	select upper(aut_nome),lower(aut_email) from tblautor;
+$$
+language sql;
+
+select * from ex1();
+
+------------------------------------------------------------------------------------------------------------
+2
+
+create or replace function ex2(cod integer)
+returns table (nomelivro text)
+as
+$$
+	select liv_titulo from tblautor a,tbllivro l,tblautoria at where a.aut_codigo = $1 and a.aut_codigo = at.aut_codigo and l.liv_codigo = at.liv_codigo;
+$$
+language sql;
+
+select ex2(3);
+------------------------------------------------------------------------------------------------------------
+3
+
+create or replace function lista()
+returns table (nome text,nomecidade text,nascimento date)
+as 
+$$
+select aut_nome,cid_nome,aut_nascimento
+from tblautor a, tblcidade c
+where a.cid_codigo = c.cid_codigo
+and(extract( day from aut_nascimento) BETWEEN '23' and '30'and 
+extract( month from aut_nascimento) = 9) 
+or (extract( day from aut_nascimento) BETWEEN '01' and '22' and
+extract( month from aut_nascimento) = 10);
+$$
+language sql;
+
+select * from lista();
+------------------------------------------------------------------------------------------------------------
+4
+
+create or replace function lista_autor()
+returns table(nome text,
+             estado char(2))
+as $$
+select aut_nome,
+    case cid_uf
+        when 'RS' then 'GAÚCHO'
+        when 'SC' then 'CATARINENSE' 
+        when 'BA' then 'BAIANO' 
+        when 'MG' then 'MINEIRO'
+    else cid_uf
+end
+from tblautor a,tblcidade c
+where c.cid_codigo = a.cid_codigo
+$$
+language sql;
+
+select * from lista_autor()

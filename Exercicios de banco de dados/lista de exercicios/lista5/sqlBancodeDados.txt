@@ -1,0 +1,23 @@
+create table tblproduto (
+pro_codigo serial not null,
+pro_nome text not null,
+pro_preco integer not null,
+pro_estoque integer not null default 0,
+primary key (pro_codigo));
+			 
+create table tblvenda (
+ven_codigo serial not null,
+ven_data date not null,
+ven_total integer default 0,
+primary key (ven_codigo));	
+			 
+create table tblintens_venda(
+ite_codigo serial not null,
+ite_qtd integer not null default 0,
+ite_vlr_unitario integer not null default 0,
+ite_total integer not null default 0,
+ven_codigo integer not null,
+pro_codigo integer not null,
+primary key (ite_codigo),
+foreign key (ven_codigo) references tblvenda (ven_codigo),
+foreign key (pro_codigo) references tblproduto (pro_codigo));

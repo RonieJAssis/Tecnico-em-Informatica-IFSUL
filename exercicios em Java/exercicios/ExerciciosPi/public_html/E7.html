@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1>Denúncia</h1>
+        <form method="GET" action="#">
+            <fieldset style="width: 940px;">
+                <legend>Por favor preencha os dados abaixo</legend>
+                <fieldset style="width: 200px;">
+                    <legend>Identificação</legend>
+                    <table border="0" cellpadding="5">
+                        <tr>
+                            <td>Tipo de manifestação</td>
+                            <td>Nome de registro</td>
+                            <td>Nome social</td>
+                        </tr>
+                        <tr>
+                            <td><select name="manifestacao"><option>Denúncia</option></select></td>
+                            <td><input type="text" name="nomer" size="50"></td>
+                            <td><input type="text" name="nomes" size="50"></td>
+                        </tr>
+                        <tr>
+                            <td width="200">Sexo como consta no registro</td>
+                            <td>Orientação sexual</td>
+                            <td>Identidade de gênero</td>
+                        </tr>
+                        <tr>
+                            <td><select name="sexor"><option>Masculino</option><option>Feminino</option></select></td>
+                          <td><input type="text" name="orientacao" size="50"></td>
+                          <td><select name="sexo"><option>Feminino</option><option>Masculino</option></select></td>
+                        </tr>
+                    </table>
+                </fieldset>
+                <br>
+                <fieldset style="width: 200px">
+                    <legend>Endereço</legend>
+                    <table border="0" cellpadding="5">
+                        <tr>
+                            <td colspan="2">Logradouro</td>
+                            <td>Número</td>
+                            <td>Complemento</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><input type="text" name="Logradouro" size="60"></td>
+                            <td><input type="text" name="num" size="20"></td>
+                            <td><input type="text" name="complemento" size="20"></td>
+                        </tr>
+                        <tr>
+                            <td>Bairro</td>
+                            <td>Cidade</td>
+                            <td>Estado</td>
+                            <td>CEP</td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" name="bairro" size="41"></td>
+                          <td><input type="text" name="cidade" size="20"></td>
+                          <td><input type="text" name="Estado" size="20"></td>
+                          <td><input type="text" name="cep" size="20"></td>
+                        </tr>
+                    </table>   
+                </fieldset> 
+                <br>
+                <fieldset style="width: 200px">
+                    <legend>Contato</legend>
+                              <table border="0" cellpadding="5">
+<tr>
+                            <td>Permite contato</td>
+                            <td colspan="2">Como devemos cháma-lo(a) ao fazer contato?</td>
+                            <td colspan="2">E-mail</td>
+                        </tr>
+                        <tr>
+                            <td><select name="acont"><option>Sim</option><option>Não</option></select></td>
+                            <td colspan="2"><input type="text" name="tcont" size="44"></td>
+                            <td colspan="2"><input type="text" name="email" size="44"></td>
+                        </tr>
+                        <tr>
+                            <td>Fone residencial</td>
+                            <td>Fone celular</td>
+                            <td>Fone recados</td>
+                            <td>Recados com</td>
+                            <td>Recados com</td>
+                        </tr>
+                        <tr>
+                          <td><input type="text" name="tresidencial" size="19"></td>
+                          <td><input type="text" name="tcel" size="19"></td>
+                          <td><input type="text" name="trec" size="19"></td>
+                          <td><input type="text" name="rec1" size="19"></td>
+                          <td><input type="text" name="rec2" size="19"></td>
+                        </tr>
+                    </table> 
+                </fieldset>
+            </fieldset>  
+            <br>
+            <input type="submit" value="Enviar formulário"/>
+        </form>
+    </body>
+</html>

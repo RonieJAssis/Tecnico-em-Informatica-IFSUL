@@ -1,0 +1,141 @@
+outros
+
+insert into tblproduto(pro_nome,pro_preco,pro_estoque) values ('aa',4.50,2);
+select * from tblproduto;
+
+select * from tblintens_venda
+select * from tblvenda
+select * from tblproduto
+
+insert into tblintens_venda(ite_qtd,ite_vlr_unitario,ite_total,ven_codigo,pro_codigo)values(1,5,5,1,8)
+insert into tblvenda(ven_data,ven_total)values(now(),5)
+update tblintens_venda
+set ite_qtd = 2
+
+update tblproduto
+set pro_estoque = 5
+
+delete from tblintens_venda
+
+
+----------------------
+1
+
+create or replace function f1()
+returns trigger as
+$$
+	begin
+		if(new.pro_nome is null) then
+			raise exception 'nome em branco';
+		elseif(new.pro_preco is null) then
+			raise exception 'preco em branco';
+		elseif(new.pro_estoque is null) then
+			raise exception 'estoque em branco';
+		else
+			return new;
+		end if;
+	end;
+$$
+language plpgsql;
+
+create trigger tr1 before insert or update on tblproduto for each row execute procedure f1();
+
+
+--------------------------
+2
+
+create or replace function f2insert()
+returns trigger as
+$$
+	begin
+		update tblproduto p
+		set pro_estoque = (pro_estoque-new.ite_qtd)
+		where p.pro_codigo = new.pro_codigo;
+		return new;
+	end;
+$$
+language plpgsql;
+
+create or replace function f2iupdate()
+returns trigger as
+$$
+	begin
+		update tblproduto p
+		set pro_estoque = (pro_estoque+old.ite_qtd)
+		where p.pro_codigo = old.pro_codigo;
+		update tblproduto p
+		set pro_estoque = (pro_estoque-new.ite_qtd)
+		where p.pro_codigo = new.pro_codigo;
+		return new;
+	end;
+$$
+language plpgsql;
+
+create or replace function f2delete()
+returns trigger as
+$$
+	begin
+		update tblproduto p
+		set pro_estoque = pro_estoque + old.ite_qtd
+		where p.pro_codigo = old.pro_codigo;
+		return old;
+	end;
+$$
+language plpgsql;
+
+
+create trigger t2in before insert on tblintens_venda for each row execute procedure f2insert();
+create trigger t2iup before update on tblintens_venda for each row execute procedure f2iupdate();
+create trigger t2del before delete on tblintens_venda for each row execute procedure f2delete();
+-------------------------------
+3 e 4
+
+create or replace function f34insert()
+returns trigger as
+$$
+begin
+
+		if not exists(select ven_codigo from tblvenda v where v.ven_codigo = new.ven_codigo) then
+			insert into tblvenda(ven_codigo,ven_data,ven_total) values(new.ven_codigo,now(),new.ite_total); 
+		else
+			update tblvenda v
+			set ven_total = ven_total + new.ite_total
+			where v.ven_codigo = new.ven_codigo;
+		end if;
+		return new;
+	end;
+$$
+language plpgsql;
+
+create or replace function f34delete()
+$$
+	declare
+	x int default 0;
+	begin
+		select count(*) into x from tblintens_venda v where v.ven_codigo = old.ven_codigo;
+		if x=1 then 
+			delete from tblvenda v where v.ven_codigo = old.ven_codigo;
+		else
+			update tblvenda v
+			set ven_total = ven_total - old.ite_total
+			where v.ven_codigo = old.ven_codigo;
+		end if;
+		return new;
+	end;
+$$
+language plpgsql;
+
+drop trigger t34in on tblintens_venda
+create trigger t34in after insert or update on tblintens_venda execute procedure f34insert();
+create trigger t34del before delete on tblintens_venda execute procedure f34delete();
+
+
+insert into tblproduto(pro_nome,pro_preco,pro_estoque) values ('bb',5,2);
+select * from tblproduto;
+insert into tblintens_venda(ite_qtd,ite_vlr_unitario,ite_total,ven_codigo,pro_codigo)values(1,5,5,5,9)
+insert into tblvenda(ven_data,ven_total) values(now(),5)
+select * from tblvenda;
+select * from tblintens_venda;
+
+delete from tblintens_venda
+delete from tblvenda

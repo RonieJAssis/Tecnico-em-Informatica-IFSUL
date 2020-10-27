@@ -1,0 +1,106 @@
+ex1
+
+returns void as
+$$
+declare
+	nome alias for $1;
+	est alias for $2;
+	ope alias for $3;	
+begin
+	if lower(ope) = 'i' then
+		insert into tblcidade(cid_nome,cid_uf) values (nome,est);
+		raise notice 'foi feito uma inserção';
+	elseif lower(ope) = 'a' then
+		update tblcidade set cid_nome = nome, cid_uf= est;
+		raise notice 'foi feito uma alteracao';
+	elseif lower(ope) = 'e' then
+		delete from tblcidade where cid_nome=nome and cid_uf=est;
+		raise notice 'foi feito uma exclusão';
+	else
+		raise notice 'nenhuma alteracao feita';
+	end if;
+end;
+$$
+language plpgsql;
+
+select ex1('Passo Fundo','RS','I')
+
+select * from tblcidade
+
+------------------------------------------------------------------
+
+ex2
+
+create or replace function ex2(n int)
+returns setof record as
+$$
+declare
+	dados record;
+	begin
+		for dados in execute 'select a.aut_nome,a.aut_email,c.cid_nome from tbllivro l, tblautoria au,tblautor a,tblcidade c where l.liv_codigo =  '||$1||' and l.liv_codigo = au.liv_codigo 
+		and a.aut_codigo = au.aut_codigo and a.cid_codigo = c.cid_codigo'
+		loop
+			return next dados;
+		end loop;
+		return;
+	end;
+$$
+language plpgsql;
+
+select * from ex2(3) as aux(a varchar(50),b varchar(30),c varchar(50))
+
+insert into tblautor(aut_nome,aut_email,aut_nascimento,cid_codigo) values ('aaa','aaa','01/02/1000','2')
+
+insert into tblautoria(aut_codigo,liv_codigo)values('2','1')
+
+select * from tblautor
+select * from tblcidade
+select * from tbllivro
+
+insert into tbllivro(liv_titulo,liv_idioma,tip_codigo,edi_codigo) values ('aaa','aaa','1','1')
+insert into tbleditora(edi_nome,edi_endereco,cid_codigo) values('aaa','aaaa','2')
+insert into tbltipo(tip_tipo) values ('aventura')
+-----------------------------------------------------------------------------
+
+ex3 
+
+
+create or replace function ex3()
+returns setof record as
+$$
+declare
+	dados record;
+	begin
+		for dados in execute 'select l.liv_titulo from tbllivro l, tbltipo t where t.tip_codigo = l.tip_codigo and lower(t.tip_tipo) =  ''aventura'''
+		loop
+			return next dados;
+		end loop;
+		return;
+	end;
+$$
+language plpgsql;
+select * from ex3() as aux(a varchar(50))
+
+-----------------------------------------------------------------------------
+
+ex4
+
+create or replace function captura_erro(v text)
+returns int as
+$$
+declare 
+	x int;
+begin
+	x:=5/$1;
+	return 1;
+	exception
+	when error_in_assignment then
+		raise notice 'sem atribuicão.';
+		return 0;
+end;
+$$
+language plpgsql;
+select captura_erro(1)
+
+
+

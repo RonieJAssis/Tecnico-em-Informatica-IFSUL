@@ -1,0 +1,1 @@
+atividades realizadas no curso tecnico do Ifsul contendo projetos com Java,C++,html,css,javascript e SQL

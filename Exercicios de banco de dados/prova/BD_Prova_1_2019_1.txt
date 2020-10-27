@@ -1,0 +1,139 @@
+CREATE TABLE TBLCIDADE
+(
+ CID_CODIGO SERIAL NOT NULL, 
+ CID_NOME VARCHAR(50) NOT NULL, 
+ CID_UF CHAR(2) NOT NULL,
+ PRIMARY KEY (CID_CODIGO)
+);
+
+insert into tblcidade(cid_nome, cid_uf) values('Passo Fundo', 'RS');
+insert into tblcidade(cid_nome, cid_uf) values('Carazinho', 'RS');
+insert into tblcidade(cid_nome, cid_uf) values('Vacaria', 'RS');
+insert into tblcidade(cid_nome, cid_uf) values('Espumoso', 'RS');
+insert into tblcidade(cid_nome, cid_uf) values('Turvo', 'SC');
+insert into tblcidade(cid_nome, cid_uf) values('Chapecó', 'SC');
+
+CREATE TABLE TBLMODALIDADE
+(
+ MOD_CODIGO SERIAL NOT NULL, 
+ MOD_NOME VARCHAR(50) NOT NULL, 
+ PRIMARY KEY (MOD_CODIGO)
+);
+
+insert into tblmodalidade(mod_nome) values('Dança Tradicional');
+insert into tblmodalidade(mod_nome) values('Declamação');
+insert into tblmodalidade(mod_nome) values('Interpetre Vocal');
+insert into tblmodalidade(mod_nome) values('Chula');
+insert into tblmodalidade(mod_nome) values('Violão');
+insert into tblmodalidade(mod_nome) values('Gaita Ponto');
+
+
+CREATE TABLE TBLENTIDADE
+(
+ ENT_CODIGO SERIAL NOT NULL,
+ ENT_NOME TEXT NOT NULL,
+ ENT_CNPJ TEXT NOT NULL,
+ CID_CODIGO INTEGER NOT NULL,
+ PRIMARY KEY(ENT_CODIGO),
+ FOREIGN KEY (CID_CODIGO) REFERENCES TBLCIDADE(CID_CODIGO)
+ );
+
+
+insert into tblentidade(ent_nome, ent_cnpj, cid_codigo) values('CTG Rincão Serrano', '34234234', 2);
+insert into tblentidade(ent_nome, ent_cnpj, cid_codigo) values('CTG Sepé Tiarajú', '332456443', 4);
+insert into tblentidade(ent_nome, ent_cnpj, cid_codigo) values('CTG Herança Gaucha', '7734234', 6);
+insert into tblentidade(ent_nome, ent_cnpj, cid_codigo) values('CTG Porteira do Rio Grande', '88769234', 3);
+insert into tblentidade(ent_nome, ent_cnpj, cid_codigo) values('CTG Vale da Amizade', '14234234', 5);
+
+
+CREATE TABLE TBLPESSOA
+(
+ PES_CODIGO SERIAL NOT NULL,
+ PES_NOME VARCHAR(50) NOT NULL,
+ PES_CPF TEXT NOT NULL,
+ ENT_CODIGO INTEGER NOT NULL,
+ PRIMARY KEY (PES_CODIGO),
+ FOREIGN KEY (ENT_CODIGO) REFERENCES TBLENTIDADE(ENT_CODIGO)
+);
+
+insert into tblpessoa(pes_nome, pes_cpf, ent_codigo) values('Felipe Proença', '12345678909', 1);
+insert into tblpessoa(pes_nome, pes_cpf, ent_codigo) values('Ana Paula Andrade', '87634287612', 2);
+insert into tblpessoa(pes_nome, pes_cpf, ent_codigo) values('Leila Garcia', '23456678909', 1);
+insert into tblpessoa(pes_nome, pes_cpf, ent_codigo) values('Mara Fortes', '88993278909', 3);
+insert into tblpessoa(pes_nome, pes_cpf, ent_codigo) values('Marcelo Ribeiro', '98745678987', 4);
+insert into tblpessoa(pes_nome, pes_cpf, ent_codigo) values('Fernando Sorocaba', '98765213254', 5);
+insert into tblpessoa(pes_nome, pes_cpf, ent_codigo) values('Mateus Caminha', '78654123198', 2);
+
+CREATE TABLE TBLETAPA
+(
+ ETA_CODIGO SERIAL NOT NULL, 
+ ETA_DT_INI DATE NOT NULL, 
+ ETA_DT_FIM DATE NOT NULL,
+ ENT_CODIGO INTEGER NOT NULL,
+ PRIMARY KEY (ETA_CODIGO),
+ FOREIGN KEY (ENT_CODIGO) REFERENCES TBLENTIDADE(ENT_CODIGO)
+);
+
+insert into tbletapa(eta_dt_ini, eta_dt_fim, ent_codigo) values('2019-05-03', '2019-05-05', 5);
+insert into tbletapa(eta_dt_ini, eta_dt_fim, ent_codigo) values('2019-06-15', '2019-06-16', 4);
+insert into tbletapa(eta_dt_ini, eta_dt_fim, ent_codigo) values('2019-07-26', '2019-07-28', 2);
+insert into tbletapa(eta_dt_ini, eta_dt_fim, ent_codigo) values('2019-08-03', '2019-08-08', 3);
+insert into tbletapa(eta_dt_ini, eta_dt_fim, ent_codigo) values('2019-09-12', '2019-09-18', 1);
+
+
+CREATE TABLE TBLINSCRICAO
+(
+ INS_CODIGO SERIAL NOT NULL, 
+ MOD_CODIGO INTEGER NOT NULL, 
+ PES_CODIGO INTEGER NOT NULL,
+ ETA_CODIGO INTEGER NOT NULL,
+ INS_NOTA NUMERIC(15,2) NULL,
+ PRIMARY KEY (INS_CODIGO),
+ FOREIGN KEY (MOD_CODIGO) REFERENCES TBLMODALIDADE(MOD_CODIGO),
+ FOREIGN KEY (PES_CODIGO) REFERENCES TBLPESSOA(PES_CODIGO),
+ FOREIGN KEY (ETA_CODIGO) REFERENCES TBLETAPA(ETA_CODIGO)
+);
+
+insert into tblinscricao(mod_codigo, pes_codigo, eta_codigo, ins_nota) values(1, 1, 5, NULL);
+insert into tblinscricao(mod_codigo, pes_codigo, eta_codigo, ins_nota) values(1, 2, 5, NULL);
+insert into tblinscricao(mod_codigo, pes_codigo, eta_codigo, ins_nota) values(1, 3, 2, NULL);
+insert into tblinscricao(mod_codigo, pes_codigo, eta_codigo, ins_nota) values(1, 4, 2, NULL);
+insert into tblinscricao(mod_codigo, pes_codigo, eta_codigo, ins_nota) values(2, 2, 2, NULL);
+insert into tblinscricao(mod_codigo, pes_codigo, eta_codigo, ins_nota) values(2, 4, 2, NULL);
+insert into tblinscricao(mod_codigo, pes_codigo, eta_codigo, ins_nota) values(2, 5, 2, NULL);
+insert into tblinscricao(mod_codigo, pes_codigo, eta_codigo, ins_nota) values(2, 7, 2, NULL);
+insert into tblinscricao(mod_codigo, pes_codigo, eta_codigo, ins_nota) values(3, 4, 4, NULL);
+insert into tblinscricao(mod_codigo, pes_codigo, eta_codigo, ins_nota) values(3, 6, 4, NULL);
+insert into tblinscricao(mod_codigo, pes_codigo, eta_codigo, ins_nota) values(4, 1, 5, NULL);
+insert into tblinscricao(mod_codigo, pes_codigo, eta_codigo, ins_nota) values(4, 7, 5, NULL);
+insert into tblinscricao(mod_codigo, pes_codigo, eta_codigo, ins_nota) values(5, 2, 3, NULL);
+insert into tblinscricao(mod_codigo, pes_codigo, eta_codigo, ins_nota) values(5, 5, 3, NULL);
+insert into tblinscricao(mod_codigo, pes_codigo, eta_codigo, ins_nota) values(5, 1, 3, NULL);
+insert into tblinscricao(mod_codigo, pes_codigo, eta_codigo, ins_nota) values(6, 7, 5, NULL);
+insert into tblinscricao(mod_codigo, pes_codigo, eta_codigo, ins_nota) values(6, 4, 5, NULL);
+insert into tblinscricao(mod_codigo, pes_codigo, eta_codigo, ins_nota) values(6, 3, 1, NULL);
+
+CREATE TABLE TBLJURADO
+(
+ JUR_CODIGO SERIAL NOT NULL,
+ JUR_NOME TEXT NOT NULL,
+ PRIMARY KEY (JUR_CODIGO)
+);
+
+insert into tbljurado(jur_nome) values ('Fabrício Corvelo');
+insert into tbljurado(jur_nome) values ('Pedro Arruda');
+insert into tbljurado(jur_nome) values ('Moacir Dalbosco');
+insert into tbljurado(jur_nome) values ('Elidiane Dalbosco');
+insert into tbljurado(jur_nome) values ('Paulo Mendonça');
+insert into tbljurado(jur_nome) values ('Viviane Moraes');
+
+CREATE TABLE TBLAVALIACAO
+(
+ INS_CODIGO INTEGER NOT NULL,
+ JUR_CODIGO INTEGER NOT NULL,
+ AVA_NOTA NUMERIC(15,2) NOT NULL,
+ PRIMARY KEY(INS_CODIGO, JUR_CODIGO),
+ FOREIGN KEY (INS_CODIGO) REFERENCES TBLINSCRICAO (INS_CODIGO),
+ FOREIGN KEY (JUR_CODIGO) REFERENCES TBLJURADO (JUR_CODIGO)
+);
+

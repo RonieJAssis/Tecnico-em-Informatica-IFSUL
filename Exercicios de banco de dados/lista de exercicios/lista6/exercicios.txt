@@ -1,0 +1,65 @@
+--------------------------------------------------------------------------
+1
+
+create or replace function processa_auditoria()
+returns trigger as
+$$
+begin
+	if(tg_op = 'delete') then
+		insert into tblauditoria(aud_op,aud_data,aud_hora,emp_codigo,aud_salario_new,aud_salario_old)
+		values('E',current_date,current_time,old.emp_codigo,0.00,old.emp_salario);
+		return old;
+	elseif(tg_op='insert') then
+		insert into tblauditoria(aud_op,aud_data,aud_hora,emp_codigo,aud_salario_new,aud_salario_old)
+		values('A',current_date,current_time,new.emp_codigo,new.emp_salario,new.emp_salario);
+		return new;
+	else
+		if(new.emp_salario<old.emp_salario) then
+			raise exception 'nao pode haver diminuicao do salario';
+		else
+			insert into tblauditoria(aud_op,aud_data,aud_hora,emp_codigo,aud_salario_new,aud_salario_old)
+			values('A',current_date,current_time,new.emp_codigo,new.emp_salario,old.emp_salario);
+			return new;
+		end if;
+	end if;
+	return null;
+end;
+$$
+language plpgsql;
+
+create trigger tr_processa_auditoria
+after insert or update or delete on tblempregado
+for each row execute procedure processa_auditoria();
+-----------------------------------------------------------
+2
+
+create or replace function verefica_auditoria()
+returns trigger as
+$$
+begin
+	if(tg_op='delete') then
+		if(old.age_dt_fim>now())then
+		   raise exception 'ainda existe agenda para este funcionario' ;
+		else
+		   return old;
+		end if;
+	else
+		select age_dt_ini from tblagenda a where a.emp_codigo = new.emp_codigo;
+		if not found then
+			if(new.age_dt_ini>new.age_dt_fim) then
+				raise exception 'data invalida';
+			else
+				return new;
+			end if;
+		else
+			raise exception 'ja existe um horario cadastrado para este empregado';
+		end if;
+	end if;
+end;
+$$
+language plpgsql;
+
+create trigger tr_verefica_auditoria
+before insert or update or delete on tblagenda
+for each row execute procedure verefica_auditoria();
+

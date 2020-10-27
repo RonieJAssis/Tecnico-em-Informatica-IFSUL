@@ -1,0 +1,114 @@
+------------------------------
+1
+c
+-----------------------------
+2
+Função necessita ser ativada manualmente e com gatilhos ele executa as 
+funções atravez de eventos(inserção,alteração e exclusão)
+----------------------------
+3
+-velocidade de processamento
+-possivel ter diversas aplicações com o mesmo banco de dados
+-segurança e dados mais consistentes
+-dados mais padronizados
+----------------------------
+4
+e
+----------------------------
+5
+select calcular(8,8)
+----------------------------
+6
+
+ CREATE OR REPLACE FUNCTION gera()
+ RETURNS integer AS
+ $$
+ declare
+ x integer;
+ res integer;
+ BEGIN
+    x = 1;
+    res = 0;
+    LOOP
+       if(x > 5) THEN
+          exit;
+       else
+          res = res + x;
+       end if;
+       x = x+1;
+    END LOOP;
+    return res;
+ END;
+ $$ LANGUAGE PLPGSQL; 
+----------------------------
+7
+c
+----------------------------
+8
+create trigger tr_verefica_cidade before insert on tblcidade for each row
+execute procedure verefica_cidade();
+----------------------------
+9
+c(talvez a)
+----------------------------
+10
+each row
+each estatement
+each estatement
+----------------------------
+11
+drop trigger(if exists) tr_cidade_excluida on tblcidade (restrict)
+----------------------------
+12
+d
+----------------------------
+13
+b
+----------------------------
+14
+a
+----------------------------
+15
+d
+----------------------------
+16
+then
+then
+end
+----------------------------
+17
+a
+----------------------------
+18
+create or replace function lista_cidade(nome text)
+returns table(nome varchar(50)) as
+$$
+	select aut_nome from tblautor a ,tblcidade c where a.cid_codigo = c.cid_codigo and c.cid_nome = $1; 
+$$						 
+language sql;						  
+select * from lista_cidade('Passo Fundo')
+----------------------------
+19
+create or replace function lista_cidade(nome text)
+returns table(nome varchar(50)) as
+$$
+	select aut_nome from tblautor a ,tblcidade c where a.cid_codigo = c.cid_codigo and c.cid_nome = $1; 
+$$						 
+language sql;						  
+select * from lista_cidade('Passo Fundo')
+-----------------------------
+20
+create or replace function e20( e int)
+returns void as 
+$$
+	begin
+		if(e>=18) then
+			raise notice 'maior de idade';
+		else
+			raise notice 'menor de idade';
+		end if;
+	end;
+$$
+language plpgsql;
+
+select e20(14)

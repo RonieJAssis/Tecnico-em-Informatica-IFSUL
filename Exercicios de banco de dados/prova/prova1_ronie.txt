@@ -1,0 +1,34 @@
+
+
+--------------------------------------------------
+14
+
+create or replace function ex14()
+returns trigger as
+$$
+	declare x numeric(15,2);
+	begin
+		select avg(ava_nota) into x from tblavaliacao aa where new.ins_codigo = aa.ins_codigo;
+		update tblinscricao i
+		set ins_nota = x
+		where i.ins_codigo = new.ins_codigo;
+		return null;
+	end;
+$$
+language plpgsql;
+
+create trigger tre_x19 after insert or update or delete on tblavaliacao for each row execute procedure ex14();
+
+--------------------------------------------------
+15
+
+create or replace function ex15(cod integer)
+returns table(ganhador text) as
+$$
+		select pes_nome from tblpessoa pe,tblinscricao i where i.pes_codigo = pe.pes_codigo and i.mod_codigo=$1 
+		and i.ins_nota = (select max(ins_nota) from tblinscricao i where i.mod_codigo=$1);
+
+$$
+language sql;
+
+select * from ex15(1)

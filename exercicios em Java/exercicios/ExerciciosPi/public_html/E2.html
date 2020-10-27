@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <form method="GET" action="#">
+            Nome:<br>
+            <input type="text" name="nome"size="30"><br><br>
+            <!-- size:O tamanho inicial do controle. !-->
+            Idade:<br>
+            <input type="number" name="idade"><br><br>
+            Sexo:<br>
+            <input type="radio" name="sexo">Masculino<br>
+            <input type="radio" name="sexo">Feminino<br><br>
+            Selecione seu estado:<br>
+            <select name="estado">
+                <option></option>
+                <option>RS</option>
+                <option>SP</option>
+                <option>SC</option>
+                <option>PR</option>
+                <option>RJ</option>
+                <option>MS</option>
+                <option>MT</option>
+                <option>AC</option>
+                <option>AL</option>
+                <option>BA</option>
+            </select><br><br>
+            <!--A tag <fieldset> é usada para agrupar elementos relacionados dentro de um formulário, desenhando uma borda em torno desses elementos.!-->
+            <fieldset style="width: 200px;">
+            Interesses:<br>
+            <input type="checkbox" name="laranja"> LED Laranja<br>
+            <input type="checkbox" name="verde"> LED Verde<br>
+            <input type="checkbox" name="azul"> LED Azul<br>
+            <input type="checkbox" name="vermelho"> LED Vermelho<br>
+            <input type="checkbox" name="rosa"> LED Rosa<br>          
+            </fieldset><br>
+            Opnião:<br>
+            <textarea cols="40" rows="10" placeholder="Escreva sua opnião"></textarea>
+        </form>
+    </body>
+</html>

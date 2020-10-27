@@ -1,0 +1,52 @@
+CREATE TABLE Pessoa (
+Nome VARCHAR(50),
+cod_pec serial PRIMARY KEY,
+data_nasc DATE,
+sex CHAR(1),
+conjugue INTEGER,
+vend CHAR(1)
+);
+
+CREATE TABLE venda (
+cod_venda serial PRIMARY KEY,
+preço_tot NUMERIC(2),
+data_vend DATE,
+cliente INTEGER,
+vendedor INTEGER,
+FOREIGN KEY(cliente) REFERENCES Pessoa (cod_pec),
+FOREIGN KEY(vendedor) REFERENCES Pessoa (cod_pec)
+);
+
+CREATE TABLE telefone (
+numero VARCHAR(15),
+cod_tel SERIAL PRIMARY KEY,
+cod_pec INTEGER,
+FOREIGN KEY(cod_pec) REFERENCES Pessoa (cod_pec)
+);
+
+CREATE TABLE produto (
+nome_prod VARCHAR(50),
+preco NUMERIC(2),
+cod_prod SERIAL PRIMARY KEY,
+estoque INTEGER
+);
+
+CREATE TABLE prod_a_venda (
+cod_prod INTEGER,
+cod_venda INTEGER,
+valor_prod NUMERIC(2),
+qnt_prod INTEGER,
+FOREIGN KEY(cod_prod) REFERENCES produto (cod_prod),
+FOREIGN KEY(cod_venda) REFERENCES venda (cod_venda)
+);
+
+ALTER TABLE Pessoa ADD FOREIGN KEY(conjugue) REFERENCES Pessoa (cod_pec)
+
+CREATE TABLE cidade (
+Nome VARCHAR(50),
+cod_cid serial PRIMARY KEY,
+uf char(2)
+);
+
+ALTER TABLE Pessoa ADD cid_cod integer;
+ALTER TABLE Pessoa ADD FOREIGN KEY(cid_cod) REFERENCES cidade (cod_cid)

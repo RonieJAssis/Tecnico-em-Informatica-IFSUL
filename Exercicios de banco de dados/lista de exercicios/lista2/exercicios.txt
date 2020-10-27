@@ -1,0 +1,85 @@
+1
+
+create or replace function lista_cidade1( uf char(2))
+returns setof tblcidade
+as
+$$
+	select * from tblcidade where cid_uf = $1 
+	order by cid_nome;
+$$
+language sql;
+
+select cid_nome from lista_cidade1('RS');
+---------------------------------------------------------------------------------------------------------
+2
+
+create or replace function ex2()
+returns table(titulo text,tipo text,editora text)
+as
+$$
+	select liv_titulo,tip_tipo,edi_nome from tbllivro l,tbltipo t,tbleditora ed where l.edi_codigo = ed.edi_codigo and l.tip_codigo = t.tip_codigo;
+$$
+language sql;
+
+select * from ex2();
+---------------------------------------------------------------------------------------------------------
+3
+
+create or replace function ex3(cod integer)
+returns table (nomelivro text)
+as
+$$
+	select upper(liv_titulo) from tblautor a,tbllivro l,tblautoria at where a.aut_codigo = $1 and a.aut_codigo = at.aut_codigo and l.liv_codigo = at.liv_codigo;
+$$
+language sql;
+
+select ex3(3);
+
+---------------------------------------------------------------------------------------------------------
+4
+
+create or replace function par (v1 integer,v2 integer)
+returns integer as 
+$$
+declare cont integer default 0 ;
+begin
+	if(v1<v2) then
+		for v1 in v1+1..v2-1 loop
+			if (mod(v1,2) = 0) then
+				cont:=cont+1;
+			end if;
+		end loop;
+	else
+		for v2 in v2+1..v1-1 loop
+			if (mod(v2,2) = 0) then
+				cont:=cont+1;
+			end if;
+		end loop;
+	end if;
+	return cont; 
+	
+end;
+$$
+language plpgsql;
+
+select par(3,10);
+---------------------------------------------------------------------------------------------------------
+5
+
+create or replace function potencia (v1 integer,v2 integer)
+returns integer as 
+$$
+declare cont integer default 1 ;
+declare x integer default 1 ;
+begin
+	for x in x .. v2 loop
+		cont=cont*v1;
+	end loop;
+	return cont;
+end;
+$$
+language plpgsql;
+
+select potencia(2,4);
+
+

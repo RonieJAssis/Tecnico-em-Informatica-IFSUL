@@ -1,0 +1,203 @@
+--------------
+1
+
+CREATE VIEW ex1 AS SELECT pec_numero FROM TBLprojeto pr,tblfornecimento fa WHERE fa.pro_numero = pr.pro_numero and pr.pro_nome like 'C%'
+
+
+select p.pec_nome from tblpeca p join  ex1 f on f.pec_numero = p.pec_numero
+order by pec_nome asc
+
+---------------
+2
+
+
+select p.pec_nome,f.qtd from tblpeca p,tblprojeto pr,tblfornecimento f 
+where f.pro_numero = pr.pro_numero and f.pec_numero = p.pec_numero
+limit 4 offset 2
+
+---------------
+3
+
+create or replace function razao()
+returns text as
+$$
+declare
+	dados tblfornecedor%rowtype;
+	begin
+		select distinct * into dados from tblfornecedor f join tblfornecimento fr on fr.for_codigo = f.for_codigo where f.for_razao like 'L%'; 
+		return dados.for_razao;
+		
+	end;
+$$
+language plpgsql;
+
+select * from razao()
+
+----------------
+4
+
+create or replace function triang (v1 integer,v2 integer,v3 integer)
+returns void as 
+$$
+
+begin
+	if(v1=v2 and v1=v3) then
+	         raise notice 'Triangulo equilatero';				
+	elseif(v1=v2 or v1=v3 or v2=v3 )then
+		raise notice 'Triangulo isoceles';
+	else
+		raise notice 'Triangulo escaleno';
+	end if;	
+end;
+$$
+language plpgsql;
+
+select triang(3,1,2);
+
+---------------
+5
+
+create or replace function exe5(uff char(2))
+returns table (fornec varchar(50),cidade varchar(50),uf char(2),fone varchar(20))
+as 
+$$
+	begin
+		select f.for_razao,c.cid_nome,c.cid_uf,f.for_fone from tblcidade c,tblfornecedor f,tblfornecimento fr
+		where  c.cid_codigo = f.cid_codigo and fr.for_codigo=f.for_codigo and extract(dow from fr.data) = 6 and cid_uf = $1;
+		if not found then
+			raise exception 'não a fornecedores';
+		end if;
+	end;
+		
+$$
+language plpgsql;
+select * from exe5('AL')
+
+-------------
+6
+
+create or replace function exe6(cod int)
+returns table (peca text,proejto text,data_for date,fornecedor text)
+as 
+$$
+	declare
+	n alias for $1;
+	begin
+		select pec_nome,pro_nome,fr.data,for_razao from tblfornecedor f,tblfornecimento fr,tblpeca p,tblprojeto pr
+		where  fr.for_codigo=f.for_codigo and p.pec_numero = fr.pec_numero and pr.pro_numero = fr.pro_numero and extract(month from fr.data) = n;
+	end;
+$$
+language plpgsql;
+
+select * from exe6(1);
+----------------
+7
+Correção
+1
+select distinct p.pec_nome from tblpeca p join  tblfornecimento f on f.pec_numero = p.pec_numero join tblprojeto pr on f.pro_numero = pr.pro_numero and pr.pro_nome like 'C%'
+order by pec_nome asc 
+
+2
+select p.pec_nome,sum(f.qtd) from tblpeca p,tblprojeto pr,tblfornecimento f 
+where f.pro_numero = pr.pro_numero and f.pec_numero = p.pec_numero
+group by p.pec_nome
+limit 4 offset 2
+
+3
+create or replace function razao()
+returns text as
+$$
+declare
+	dados tblfornecedor%rowtype;
+	begin
+		select distinct * into dados from tblfornecedor f join tblfornecimento fr on fr.for_codigo = f.for_codigo where f.for_razao like 'L%'; 
+		return dados.for_razao;
+		
+	end;
+$$
+language plpgsql;
+
+select * from razao()
+
+4
+create or replace function triang (v1 integer,v2 integer,v3 integer)
+returns void as 
+$$
+
+begin
+	if(v1=v2 and v1=v3) then
+	         raise notice 'Triangulo equilatero';				
+	elseif(v1=v2 or v1=v3 or v2=v3 )then
+		raise notice 'Triangulo isoceles';
+	else
+		raise notice 'Triangulo escaleno';
+	end if;	
+end;
+$$
+language plpgsql;
+
+select triang(3,1,2);
+
+5
+create or replace function ex5(uff char(2))
+returns setof record as
+$$
+declare
+	dados record;
+	begin
+		for dados in execute 'select f.for_razao,c.cid_nome,c.cid_uf,f.for_fone from tblcidade c,tblfornecedor f,tblfornecimento fr
+		where  c.cid_codigo = f.cid_codigo and fr.for_codigo=f.for_codigo and extract(dow from fr.data) = 6 and cid_uf = '''||$1||''';'
+			loop
+				return next dados;
+			end loop;
+			if not found then
+			raise exception 'não a fornecedores';
+			end if;
+			
+		return;
+	end;
+$$
+language plpgsql;
+select * from ex5('AM') as aux(a varchar(50),b varchar(50),c char(2),d varchar(20))
+
+6																			   
+create or replace function ex6(nu int)
+returns setof record as
+$$
+declare
+	n alias for $1;
+	dados record;
+	begin
+		for dados in execute 'select pec_nome,pro_nome,fr.data,for_razao from tblfornecedor f,tblfornecimento fr,tblpeca p,tblprojeto pr
+		where  fr.for_codigo=f.for_codigo and p.pec_numero = fr.pec_numero and pr.pro_numero = fr.pro_numero and extract(month from fr.data) = '||n||';'
+			loop
+				return next dados;
+			end loop;
+		return;
+	end;
+$$
+language plpgsql;
+select * from ex6(1) as aux(a varchar(50),b varchar(50),c date,d varchar(50))
+
+outra 5
+
+create or replace function lista_mes(mes integer)
+returns text as
+$$
+declare 
+m alias for $1;
+dados tblfornecimento%rowtype;
+begin
+select pec_nome, pro_nome, data, for_razao into dados
+from tblpeca pe, tblprojeto pr, tblfornecimento fo, tblfornecedor f
+where pe.pec_numero = fo.pec_numero
+and pr.pro_numero = fo.pro_numero 
+and f.for_codigo = fo.for_codigo
+and extract(month from data) = m;
+return dados;
+end;
+$$
+language plpgsql;
+
+
+

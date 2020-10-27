@@ -1,0 +1,348 @@
+#bodi{
+    min-width: 240px;
+    width: 100%;
+    margin: auto;
+    background-color: #1f4687;
+    font-family: fantasy ;     
+}
+#imgn{
+    height: 150px;
+    width: 150px;
+    display:block;
+    margin-left: 0.5em;
+}
+
+#cabecalho{
+    display:flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    background-color: #3578e8;
+    width: 95%;
+    margin: auto;
+    border-radius: 15px;
+
+
+}
+#cabecalho > div{
+    align-self: center;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+.pesquisa{
+    background-color: blue;
+    flex: 1 0 auto;
+    display: flex;
+    margin-right: 0.5em;
+    height: 2em;
+}
+.pesquisa input[type="text"]{
+    flex: 1 0 auto;    
+}
+
+.links a:hover{
+    background-color: lightgray;
+}
+.links a:link,.links a:visited,.links a:active{
+    text-decoration: none;
+    color: black;
+}
+.marca{
+    margin-right: 0.5em;
+    margin-left: 0.5em;
+    font-size: 1.5em;
+}
+.links {
+    margin-right: 1em;
+}
+
+#bpesquisa{
+    display:flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    background-color: #3578e8;
+    width: 95%;
+    margin: auto;
+    min-width: 120px;
+     border-radius: 15px;
+
+}
+#bpesquisa > div{
+    align-self: center;
+    margin: auto;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;  
+
+}
+#bpesquisa > div:hover{
+    background-color: lightgray;
+}
+#bpesquisa a p{
+    text-align: center;
+    margin: 0;
+    margin-top: 0.5em;
+    padding: 0;
+}
+.logos{
+    height: 70px;
+    width: 70px;
+    display:block;
+    margin: auto;
+}
+
+.ps4 a:hover{
+    background-color: lightgray;
+
+}
+.ps4 a:link,.ps4 a:visited,.ps4 a:active{
+    text-decoration: none;
+    color: black;
+
+
+}
+.xbox a:hover{
+    background-color: lightgray;
+}
+.xbox a:link,.xbox a:visited,.xbox a:active{
+    text-decoration: none;
+    color: black;
+}
+.pc a:hover{
+    background-color: lightgray;
+}
+.pc a:link,.pc a:visited,.pc a:active{
+    text-decoration: none;
+    color: black;
+}
+
+
+.produtos{
+    display:flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    background-color: #3578e8;
+    width: 95%;
+    margin: auto;
+     border-radius : 0px 0px 15px 15px;
+}
+.categoria{
+    background-color:#3578e8;
+    width: 95%;
+    margin: auto;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+     border-radius : 15px 15px 0px 0px;
+
+}
+.categoria img{
+    height: 70px;
+    width: 70px;
+    display:block;
+    margin: auto;
+}
+.produtos > div{
+    align-self: center;
+    margin: auto; 
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    text-align: center;
+}
+.produtos > div span{
+    font-weight:bold; 
+}
+.imgpro{
+    display:block;
+    margin: auto;
+    border: 0.2em  solid black;
+    margin-bottom: 0.5em;
+
+}
+.produtos  div  .botao{
+    background-color: gold;
+    width: 130px;
+    height: 25px;
+    font-size: 20px;
+    margin: auto;
+    padding: 0.5em;
+    margin-top: 0.5em;
+    border-radius: 50px;
+
+}
+
+.produtos > div  a:link,.produtos > div a:visited,.produtos > div a:active{
+    text-decoration: none;
+    color: black;
+}
+.rodape{
+    display:flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    background-color: #3578e8;
+    width: 95%;
+    margin: auto;
+    text-align: center;
+    font-size: 17px;
+    border-radius: 15px;
+    padding-left: 0.5em;
+}
+
+form{
+    max-width: 95%;
+    margin: auto;
+    background-color: #3578e8;
+    padding-bottom: 0.5em;
+    text-align: center;
+    font-size: 18px;
+    padding-top: 0.5em;
+    border-radius: 15px;
+}
+
+    
+    
+
+form div{  
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap; 
+    padding: 0.5em;
+    
+}
+
+form div label{
+    display: block;
+    width: 7em;
+}
+form div input{
+    flex: 1 0 100px;
+    height: 1.5em;
+}
+form div select{
+    flex: 1 0 200px;
+    height: 2em;
+    width: 1em;
+}
+form div textarea{
+    flex: 1 0 100px;
+    height: 10em;
+
+}
+
+
+form a .sep{
+    background-color: gold;
+    width: 90px;
+    height: 25px;
+    font-size: 20px;
+    margin: auto;
+    padding: 0.5em;
+    margin-top: 0.5em;
+    display: block;
+    border-radius: 50px;
+    text-align: center;
+    
+}
+
+form a:link,form  a:visited,form a:active{
+    text-decoration: none;
+    color: black;
+}
+
+.pedidos {
+    display:flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    background-color: #3578e8;
+    width: 95%;
+    margin: auto;
+    border-radius: 15px;
+    text-align : center;    
+}
+.demonio{ 
+    display:flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    background-color: #3578e8;
+    width: 95%;
+    margin: auto;
+    border-radius: 15px; 
+}
+.demonio div{
+    padding-left: 2em;
+    padding-right: 2em;
+    padding-top: 0.5em;
+    padding-bottom: 2em;
+}
+.peddesc{
+    display:flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding-bottom: 0.5em;
+    width: 95%;
+    margin: auto;
+    max-width:75%;
+}
+
+.pedp{
+    display:flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    background-color: #3578e8;
+    width: 95%;
+    margin: auto;
+    max-width:75%; 
+}
+.prod{  
+    flex: 1 0 10px;
+    width: 50px;
+}
+
+.uni{  
+    width: 100px;   
+}
+
+.val{   
+    width: 100px;   
+}
+
+.sub{   
+    width: 100px;   
+}
+
+.pedp div img{
+    max-height: 120px;
+    max-width: 100px;
+    width: 60%;
+    height: 80%;
+    display:block;
+    margin:auto;
+}
+.pedp div{
+    align-self: center;
+}
+.final{
+    flex-wrap: wrap;
+    justify-content: space-between;
+    display:flex;
+    background-color: #3578e8;
+    width: 60%;
+    margin: auto;
+    max-width:60%; 
+    border-radius: 15px 15px 0px 0px;
+    padding: 0.5em;
+}
+.final div{
+    align-self: center;
+}
+.finalizar{ 
+    flex-wrap: wrap;
+    justify-content: space-between;
+    display:flex;
+    background-color: #3578e8;
+    width: 60%;
+    margin: auto;
+    max-width:60%; 
+    border-radius: 0px 0px 15px 15px;
+    padding: 0.5em;
+}
+.finalizar div{
+    align-self: center;
+}
